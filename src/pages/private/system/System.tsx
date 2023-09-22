@@ -4,6 +4,7 @@ import IndexDatos from "./datos/IndexDatos";
 import Navigation from "../../../components/Navigation";
 import DraggableModal from "../../../components/Draggable";
 import { useState } from "react";
+import IndexProcesos from "./procesos/IndexProcesos"
 export default function System() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -25,6 +26,7 @@ export default function System() {
       <RouteNotFound>
         <Route path="" element={<div>Welcome System</div>} />
         <Route path="datos/*" element={<IndexDatos />} />
+        <Route path="procesos/*" element={<IndexProcesos />} />
       </RouteNotFound>
     </>
   );

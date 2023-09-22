@@ -121,7 +121,7 @@ const items = [
           {
             title: "Presupuestos",
             hasMenu: false,
-            route: "procesos/presupuestos/presupuestos",
+            route: "procesos/presupuestos",
           },
         ],
       },
@@ -350,7 +350,7 @@ const items = [
 
 function Navigation() {
   return (
-    <div className="flex justify-between px-5 py-5 bg-[#1E1F26] text-white items-center">
+    <div className="flex justify-between px-5 py-2 bg-[#1E1F26] text-white items-center">
       <div className="flex items-center flex-[0.8] justify-start">
         <div className="flex-[0.1]">
           <Link to="/">

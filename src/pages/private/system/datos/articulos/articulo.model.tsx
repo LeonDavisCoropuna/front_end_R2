@@ -1,4 +1,4 @@
-export interface Articulo {
+export interface  Articulo {
   idN: number;
   nombre: string;
   categoria: string;
