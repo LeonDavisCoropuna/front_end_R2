@@ -1,20 +1,9 @@
-import RouteNotFound from "../../../utils/RouteNotFound";
+import RouteNotFound from "@/utils/RouteNotFound";
 import { Route } from "react-router-dom";
 import IndexDatos from "./datos/IndexDatos";
 import Navigation from "../../../components/Navigation";
-import DraggableModal from "../../../components/Draggable";
-import { useState } from "react";
-import IndexProcesos from "./procesos/IndexProcesos"
+import IndexProcesos from "./procesos/IndexProcesos";
 export default function System() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
   return (
     <>
       <Navigation />
