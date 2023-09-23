@@ -1,10 +1,10 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   EmptyPresupuesto,
   Presupuesto,
   Servicio,
 } from "./nuevoPresupuesto.model";
-import { AiFillPlusCircle } from "react-icons/ai";
+import { AiFillPlusCircle, AiOutlineDelete } from "react-icons/ai";
 
 function NuevoPresupuesto() {
   const [presupuesto, setPresupuesto] = useState<Presupuesto>(EmptyPresupuesto);
@@ -62,6 +62,22 @@ function NuevoPresupuesto() {
     });
   };
 
+  const handleDeleteService = (e: React.MouseEvent, index: number) => {
+    e.preventDefault();
+    
+    // Copia el array de servicios del estado actual
+    const serviciosCopia = [...presupuesto.servicio];
+  
+    // Elimina el elemento en la posición 'index' de la copia del array
+    serviciosCopia.splice(index, 1);
+    const servicios = serviciosCopia.map((servicio,index) => ({...servicio, no:index+1})) 
+    // Actualiza el estado con la copia del array modificado
+    setPresupuesto({
+      ...presupuesto,
+      servicio: servicios,
+    });
+  };
+  
   return (
     <div>
       <div>
@@ -298,7 +314,7 @@ function NuevoPresupuesto() {
                       className="w-full bg-transparent"
                     />
                   </td>
-                  <td className=" border-[0.15em]">
+                  <td className=" border-[0.15em] flex relative justify-between gap-2">
                     <textarea
                       rows={3}
                       value={servicio.descripcion}
@@ -311,6 +327,9 @@ function NuevoPresupuesto() {
                       }
                       className=" w-[50em] bg-transparent border-none outline-none"
                     />
+                    <button className="flex items-center" onClick={(e:React.MouseEvent) => handleDeleteService(e,index)}>
+                      <AiOutlineDelete size={20} />
+                    </button>
                   </td>
                   <td className=" border-[0.15em]">
                     <input
