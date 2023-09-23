@@ -1,37 +1,56 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Client, ClientEmpty } from "./client.model";
+import { Client } from "./client.model";
 import axios from "@/config/axiosConfig";
+import { isNumeric } from "@/utils/decodeToken.utils";
 
 const ClienteDetalle = () => {
   const { id } = useParams<{ id: string }>();
-  const [client, setClient] = useState<Client>(ClientEmpty);
+  const [client, setClient] = useState<Client>(Client);
   const navigate = useNavigate();
   useEffect(() => {
-    const fetchClient = async () => {
-      try {
-        const res = await axios.get<Client>(`/data/v1/client/${id}`);
-        setClient(res.data);
-      } catch (error) {
-        console.error("Error fetching client:", error);
-      }
-    };
+    if ((id && isNumeric(id))) {
+      console.log("asdasd")
+      const fetchClient = async () => {
+        try {
+          const res = await axios.get<Client>(`/data/v1/clients/${id}`);
+          setClient(res.data);
+        } catch (error) {
+          console.error("Error fetching client:", error);
+        }
+      };
 
-    fetchClient();
+      fetchClient();
+    }
   }, [id]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setClient({
       ...client,
       [e.target.name]: e.target.value,
     });
   };
-  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+
+  const handleChangeEstado = (e: number) => {
+    setClient({
+      ...client,
+      estado: e ? true : false,
+    });
+  };
+  const handleSubmit = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
     try {
-      await axios.put<Client>(`/data/v1/client/${id}`, client);
+      if (id && isNumeric(id)) {
+        await axios.put<Client>(`/data/v1/clients/${id}`, client);
+      } else {
+        await axios.post<Client>(`/data/v1/clients/create`, client);
+      }
+      navigate("/system/datos/clientes");
       alert("Envío correcto");
-      navigate(-1);
     } catch (error) {
       alert("Ocurrió un error en el servidor");
     }
@@ -42,17 +61,15 @@ const ClienteDetalle = () => {
         <form className=" mt-5 p-2 ml-5 border-2 rounded-md flex flex-col flex-[0.3] gap-y-2">
           <div className=" hover:bg-slate-200 hover:rounded-md flex justify-between">
             <span>ID: </span>
-            <div className="border-b-2 border-blue-800">
-              <input value={client.idNum} className=" bg-transparent" />
-            </div>
+            <div className="border-b-2 border-blue-800">{client.idN}</div>
           </div>
           <label className=" hover:bg-slate-200 hover:rounded-md flex justify-between gap-2">
             <span>Name: </span>
             <span className="border-b-2 border-blue-600">
               <input
                 className="focus:border-none border-none bg-transparent"
-                value={client.name}
-                name="name"
+                value={client.nombre}
+                name="nombre"
                 onChange={handleChange}
               />
             </span>
@@ -73,8 +90,8 @@ const ClienteDetalle = () => {
             <span className="border-b-2 border-blue-600">
               <input
                 className="focus:border-none border-none bg-transparent"
-                value={client.address}
-                name="address"
+                value={client.direccion}
+                name="direccion"
                 onChange={handleChange}
               />
             </span>
@@ -84,8 +101,8 @@ const ClienteDetalle = () => {
             <div className="border-b-2 border-blue-600">
               <input
                 className="focus:border-none border-none bg-transparent"
-                value={client.telephone}
-                name="telephone"
+                value={client.telefono}
+                name="telefono"
                 onChange={handleChange}
               />
             </div>
@@ -95,24 +112,25 @@ const ClienteDetalle = () => {
             <span className="border-b-2 border-blue-600">
               <input
                 className="focus:border-none border-none bg-transparent "
-                value={client.clientType}
-                name="clientType"
+                value={client.tipoCliente}
+                name="tipoCliente"
                 onChange={handleChange}
               />
             </span>
           </label>
-          <label className=" hover:bg-slate-200 hover:rounded-md flex justify-between ">
+          <label className="hover:bg-slate-200 hover:rounded-md flex justify-between">
             <span>State: </span>
-            <span className="border-b-2 border-blue-600">
-              <input
-                className="focus:border-none border-none bg-transparent"
-                value={client.state}
-                name="state"
-                onChange={handleChange}
-              />
-            </span>
+            <select
+              value={client.estado ? "Activo" : "Inactivo"}
+              onChange={(e) =>
+                handleChangeEstado(e.target.value === "Activo" ? 1 : 0)
+              } // Retorna 1 si es "Activo", 0 si es "Inactivo"
+              name="estado"
+            >
+              <option>Activo</option>
+              <option>Inactivo</option>
+            </select>
           </label>
-
           <div className="flex-[0.8]">
             <button
               type="submit"

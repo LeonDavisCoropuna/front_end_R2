@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Articulo, ArticuloEmpty, keysArticulo } from "./articulo.model";
 import axios from "@/config/axiosConfig";
+import { isNumeric } from "@/utils/decodeToken.utils";
 
 const ClienteDetalle = () => {
   const { id } = useParams<{ id: string }>();
@@ -9,16 +10,18 @@ const ClienteDetalle = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchArticulo = async () => {
-      try {
-        const res = await axios.get<Articulo>(`/data/v1/article/${id}`);
-        setArticulo(res.data);
-      } catch (error) {
-        console.error("Error fetching article:", error);
-      }
-    };
+    if (id && isNumeric(id)) {
+      const fetchArticulo = async () => {
+        try {
+          const res = await axios.get<Articulo>(`/data/v1/article/${id}`);
+          setArticulo(res.data);
+        } catch (error) {
+          console.error("Error fetching article:", error);
+        }
+      };
 
-    fetchArticulo();
+      fetchArticulo();
+    }
   }, [id]);
 
   const handleChange = (
@@ -38,9 +41,13 @@ const ClienteDetalle = () => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
+    console.log(id);
     try {
-      await axios.put<Articulo>(`/data/v1/client/${id}`, articulo);
-      alert("Envío correcto");
+      if (id && isNumeric(id)) {
+        await axios.put<Articulo>(`/data/v1/client/${id}`, articulo);
+      } else {
+        await axios.post<Articulo>(`/data/v1/client/`, articulo);
+      }
       navigate(-1);
     } catch (error) {
       alert("Ocurrió un error en el servidor");

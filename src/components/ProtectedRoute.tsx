@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { AppStore } from "../redux/store";
-import { Navigate, Outlet, RouteProps } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 interface ProtectedRouteProps {
   children: JSX.Element | JSX.Element[];

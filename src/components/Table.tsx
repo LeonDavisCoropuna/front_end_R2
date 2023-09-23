@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import { IoIosArrowDropleftCircle } from "react-icons/io";
+import {AiFillDelete} from "react-icons/ai"
 import { useNavigate } from "react-router-dom";
-
+import axios from "@/config/axiosConfig"
 interface Props {
   columns: string[];
   info: any[];
   route?: string;
+  routeBack?:string;
 }
 
-export default function Table({ columns, info, route }: Props) {
+export default function Table({ columns, info, route,routeBack }: Props) {
   const [sortedInfo, setSortedInfo] = useState([...info]);
   const [sortColumn, setSortColumn] = useState<string>(""); // Columna actualmente seleccionada
   const [selectedRow, setSelectedRow] = useState<number | null>(null); // Fila seleccionada
@@ -62,11 +63,21 @@ export default function Table({ columns, info, route }: Props) {
       console.log("Selecciona una ruta");
     }
   };
+  const handleClickCreate = () => {
+    navigate(route+"nuevo")
+  }
+  const handleDelete = async (index:number) => {
+    const idItem = sortedInfo[index].idN;
+    console.log(idItem)
+    const res = await axios.delete(routeBack+idItem,idItem)
+  }
 
   return (
     <div className="py-10 flex justify-start pl-3 pr-20 flex-col gap-3 text-white">
       <div>
         <button onClick={handleEditClient}>Editar</button>
+        <button onClick={handleClickCreate}>Crear</button>
+
       </div>
       <table>
         <thead className="text-white bg-black">
@@ -84,6 +95,13 @@ export default function Table({ columns, info, route }: Props) {
                 </button>
               </th>
             ))}
+            <th
+              className="resize-x overflow-auto border-2 cursor-pointer"
+            >
+              <button className="text-sm w-full h-full">
+                Opcion
+              </button>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -103,6 +121,9 @@ export default function Table({ columns, info, route }: Props) {
                   {row[column]}
                 </td>
               ))}
+              <td className="border-2 text-sm text-left px-2 overflow-ellipsis overflow-hidden whitespace-nowrap max-w-[200px]">
+                <button onClick={() => handleDelete(rowIndex)}><AiFillDelete /></button>
+              </td>
             </tr>
           ))}
         </tbody>

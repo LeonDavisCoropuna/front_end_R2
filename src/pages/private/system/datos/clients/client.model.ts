@@ -1,19 +1,31 @@
 export interface Client {
-  idNum: number;
-  name: string;
+  idN: number;
+  nombre: string;
   dniRuc: string;
-  address: string;
-  telephone: number;
-  clientType: string;
-  state: string;
+  direccion: string;
+  telefono: number;
+  tipoCliente: string;
+  estado: boolean;
 }
 
-export const ClientEmpty: Client = {
-  idNum: 0,
-  name: '',
-  dniRuc: '',
-  address: '',
-  telephone: 0,
-  clientType: '',
-  state: ''
+export const ClientEmpty: Client[] = [
+  {
+    idN: 0,
+    nombre: "",
+    dniRuc: "",
+    direccion: "",
+    telefono: 0,
+    tipoCliente: "",
+    estado: true,
+  },
+];
+
+export const Client: Client = {
+  idN: 0,
+  nombre: "",
+  dniRuc: "",
+  direccion: "",
+  telefono: 0,
+  tipoCliente: "",
+  estado: true,
 };

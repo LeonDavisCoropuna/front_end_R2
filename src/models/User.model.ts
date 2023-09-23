@@ -1,5 +1,6 @@
 export interface User {
   username: string;
-  isLogged: boolean;
   roles: string[];
+  exp: number;
+  iat:number;
 }

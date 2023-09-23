@@ -1,11 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import Table from "../../../../../components/Table";
-import { Client } from "./client.model";
+import { Client, ClientEmpty } from "./client.model";
 import axios from "@/config/axiosConfig"
-import RouteNotFound from "../../../../../utils/RouteNotFound";
-import { Route, Routes } from "react-router-dom";
-import ClienteDetalle from "./ClienteDetalle";
 export default function Clientes() {
+  /*
   const clientsData: Client[] = [
     {
       idNum: 1231,
@@ -25,11 +23,11 @@ export default function Clientes() {
       clientType: "string",
       state: "inactivo",
     },
-  ];
+  ];*/
 
   const ref = useRef(true);
-  const [info, setInfo] = useState<Client[]>(clientsData);
-  /*
+  const [info, setInfo] = useState<Client[]>(ClientEmpty);
+  
   useEffect(() => {
     if (ref.current) {
       const getInfoClients = async () => {
@@ -49,21 +47,22 @@ export default function Clientes() {
       ref.current = false;
     };
   }, []);
-  */
+  
   const clientsKeys = [
-    "idNum",
-    "name",
+    "idN",
+    "nombre",
     "dniRuc",
-    "address",
-    "telephone",
-    "clientType",
-    "state",
+    "direccion",
+    "telefono",
+    "tipoCliente",
+    "estado",
   ];
   const route = "/system/datos/clientes/";
+  const routeBack = "/data/v1/clients/";
   return (
     <div className=" bg-[#283355] overflow-auto h-[30em]">
-      {ref.current === true ? (
-        <Table columns={clientsKeys} info={info} route={route} />
+      {ref.current === false ? (
+        <Table columns={clientsKeys} info={info} route={route} routeBack={routeBack} />
       ) : null}
     </div>
   );

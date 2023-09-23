@@ -4,23 +4,25 @@ import { UserEmptyState, createUser } from "../../redux/state/User";
 import { useDispatch } from "react-redux";
 import axios from "../../config/axiosConfig"
 import { decodeToken } from "../../utils/decodeToken.utils";
+import { tokenKey } from "../../utils/decodeToken.utils";
 import Cookies from "js-cookie";
 export default function Login() {
-  const [user, setUser] = useState({...UserEmptyState,roles:["admin","user"]});
-  
+  const [user, setUser] = useState({username: "",password:""});
+  const [logged,setLogged] = useState(1);
   const navigate = useNavigate(); // Obtiene la función de navegación
   const dispatch = useDispatch();
   const handleClick = async (e: any) => {
     e.preventDefault();
     if (user.username) {
       try {
-        const res = await axios.post("auth/login", user);
-        const saveUser = decodeToken(res.data.token)
+        const res = await axios.post("/auth/login", user);
+        Cookies.set(tokenKey,res.data.token)
+        const saveUser = decodeToken(tokenKey)
         dispatch(createUser(saveUser));
-        Cookies.set("token",res.data.token)
         navigate("/system");  
       } catch (error) {
         console.log(error);
+        setLogged(0);
       }
     }
   };
@@ -80,6 +82,7 @@ export default function Login() {
               className="text-left rounded-md px-5 py-2 focus:outline-none"
             ></input>
           </div>
+          {!logged && <div>Accedo Denegado</div>}
           <button
             onClick={handleClick}
             className="bg-blue-200 rounded-md p-5 hover:bg-slate-500"

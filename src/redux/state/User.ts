@@ -1,12 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { User } from "../../models/User.model";
-import Cookies from "js-cookie";
-import jwtDecode from "jwt-decode"
 import { decodeToken,tokenKey } from "../../utils/decodeToken.utils";
 export const UserEmptyState: User = {
   username: "",
-  isLogged: false,
   roles: [],
+  exp: 0,
+  iat:0
 };
 
 export const userSlice = createSlice({
