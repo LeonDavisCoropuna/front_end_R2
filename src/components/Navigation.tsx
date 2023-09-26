@@ -284,7 +284,7 @@ const items = [
     title: "Despachos",
     hasMenu: true,
     route: "despachos",
-    menu: [{ title: "Guia de Remision", hasMenu: false, route: "despachos" }],
+    menu: [{ title: "Guia de Remision", hasMenu: false, route: "despachos/guia" }],
   },
   {
     title: "RR.HH",
