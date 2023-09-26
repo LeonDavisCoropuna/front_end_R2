@@ -18,7 +18,7 @@ export interface Presupuesto {
   tipo: string;
   cliente: string;
   nombre: string;
-  direccion:string;
+  direccion: string;
   atencion: string;
   servicio: Servicio[];
 }
@@ -34,7 +34,7 @@ export const EmptyPresupuesto: Presupuesto = {
   tipo: "",
   cliente: "",
   nombre: "",
-  direccion:"",
+  direccion: "",
   atencion: "",
   servicio: [
     {

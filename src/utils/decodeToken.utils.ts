@@ -8,8 +8,9 @@ export const decodeToken = (token: string) => {
   }
   return null;
 };
-export const isNumeric = (text:string)=>{
-  if(typeof text === "number") return 1;
-  return 0;
-}
+export const isNumeric = (text: string) => {
+  const num = parseFloat(text); // Convertir 'text' a número
+  return !isNaN(num) && isFinite(num);
+};
+
 export const tokenKey = "token";

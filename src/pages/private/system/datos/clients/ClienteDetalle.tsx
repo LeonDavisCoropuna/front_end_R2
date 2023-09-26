@@ -9,8 +9,7 @@ const ClienteDetalle = () => {
   const [client, setClient] = useState<Client>(Client);
   const navigate = useNavigate();
   useEffect(() => {
-    if ((id && isNumeric(id))) {
-      console.log("asdasd")
+    if (id && isNumeric(id)) {
       const fetchClient = async () => {
         try {
           const res = await axios.get<Client>(`/data/v1/clients/${id}`);
@@ -52,7 +51,7 @@ const ClienteDetalle = () => {
       navigate("/system/datos/clientes");
       alert("Envío correcto");
     } catch (error) {
-      alert("Ocurrió un error en el servidor");
+      alert("Ocurrió un error");
     }
   };
   return (

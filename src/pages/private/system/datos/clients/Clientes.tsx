@@ -42,7 +42,6 @@ export default function Clientes() {
       getInfoClients(); // Llama a la función para obtener datos de los clientes
     }
 
-    // Establece ref.current a false cuando el componente se desmonta
     return () => {
       ref.current = false;
     };
