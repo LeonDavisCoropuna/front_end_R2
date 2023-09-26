@@ -24,7 +24,7 @@ export interface Presupuesto {
 }
 
 export const EmptyPresupuesto: Presupuesto = {
-  numero: 0,
+  numero: 22,
   estado: "",
   formaPago: "",
   referencia: "",
@@ -48,3 +48,10 @@ export const EmptyPresupuesto: Presupuesto = {
     },
   ],
 };
+
+export const EmptyPresupuestos: Presupuesto[] = [
+  EmptyPresupuesto,
+  EmptyPresupuesto,
+  EmptyPresupuesto,
+  EmptyPresupuesto,
+];
