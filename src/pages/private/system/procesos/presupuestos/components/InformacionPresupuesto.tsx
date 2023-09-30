@@ -33,7 +33,7 @@ function InformacionPresupuesto() {
                   name="numero"
                   className=" border-gray-500 pl-1 border-[0.1em] rounded-md w-24"
                   onChange={handleChangePresupuesto}
-                  value={presupuesto.numero}
+                  value={presupuesto.idN}
                 />
               </td>
             </tr>
@@ -92,9 +92,9 @@ function InformacionPresupuesto() {
                 <input
                   type="date"
                   className="border-gray-500 pl-1 border-[0.1em] w-24  rounded-md"
-                  name="fecha"
+                  name="fechaCreacion"
                   onChange={handleChangePresupuestoFecha}
-                  value={presupuesto.fecha.toISOString().split("T")[0]}
+                  value={presupuesto.fechaCreacion.toISOString().split("T")[0]}
                 />
               </td>
             </tr>
@@ -104,9 +104,9 @@ function InformacionPresupuesto() {
                 <input
                   type="date"
                   className="border-gray-500 pl-1 border-[0.1em] w-24 rounded-md"
-                  name="validez"
+                  name="fechaValidez"
                   onChange={handleChangePresupuestoFecha}
-                  value={presupuesto.validez.toISOString().split("T")[0]}
+                  value={presupuesto.fechaValidez.toISOString().split("T")[0]}
                 />
               </td>
             </tr>

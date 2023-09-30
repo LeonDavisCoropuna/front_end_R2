@@ -10,27 +10,107 @@ function TablePresupuesto() {
   const agregarServicio = (e: React.MouseEvent) => {
     e.preventDefault();
     const nuevoServicio: Servicio = {
-      no: presupuesto.servicio.length + 1,
+      idN: presupuesto.servicios.length + 1,
       codigo: "",
       descripcion: "",
       cantidad: 0,
       uMedida: "",
       pUnitario: 0,
       importe: 0,
+      item: {
+        pedido: "",
+        cantidad: 0,
+        costoTotal: 0,
+        utilidad: 0,
+        total: 0,
+        materiales: [
+          {
+            idN: 0,
+            articulo: "",
+            cantidad: 0,
+            cantidadEstimada: 0,
+            unidadMedida: "",
+            precioUnitario: 0,
+            importe: 0,
+            factor: 1,
+            total: 0,
+          },
+        ],
+        manoObra: {
+          confeccion: [
+            {
+              descripcion: "",
+              proceso: "",
+              cantidadPorHora: 0,
+              nroHoras: 0,
+              nroPersonas: 0,
+              importe: 0,
+            },
+          ],
+          instalacion: [
+            {
+              descripcion: "",
+              proceso: "",
+              cantidadPorHora: 0,
+              nroHoras: 0,
+              nroPersonas: 0,
+              importe: 0,
+            },
+          ],
+          factor: 2.1,
+          total: 0,
+        },
+        serviciosTerceros: [
+          {
+            servicioBrindado: "",
+            proveedor: "",
+            importe: 0,
+            factor: 1,
+            total: 0,
+          },
+        ],
+        viaticos: [
+          {
+            descripcion: "",
+            costo: 0,
+            noPersonas: 0,
+            noDias: 0,
+            importe: 0,
+            factor: 1,
+            total: 0,
+          },
+        ],
+        impresiones: [
+          {
+            campania: "",
+            material: "",
+            impresora: "",
+            metrosHorizontal: 0,
+            metrosVertical: 0,
+            cantidad: 0,
+            cantidadTotal: 0,
+            precioM2: 0,
+            importe: 0,
+            minimo: 0,
+            factor: 1,
+            total: 0,
+          },
+        ],
+      },
     };
 
     // Clona el array existente y agrega el nuevo servicio
-    const nuevosServicios = [...presupuesto.servicio, nuevoServicio];
+    const nuevosServicios = [...presupuesto.servicios, nuevoServicio];
 
     // Actualiza el estado del presupuesto con los nuevos servicios
     setPresupuesto({
       ...presupuesto,
-      servicio: nuevosServicios,
+      servicios: nuevosServicios,
     });
   };
   const handleDeleteService = (e: React.MouseEvent, index: number) => {
     e.preventDefault();
-    const servicioCopia = [...presupuesto.servicio];
+    const servicioCopia = [...presupuesto.servicios];
     servicioCopia.splice(index, 1);
 
     console.log(servicioCopia);
@@ -78,7 +158,7 @@ function TablePresupuesto() {
             </tr>
           </thead>
           <tbody>
-            {presupuesto.servicio.map((servicio, index) => (
+            {presupuesto.servicios.map((servicio, index) => (
               <TableService
                 servicio={servicio}
                 index={index}

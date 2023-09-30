@@ -35,15 +35,12 @@ export default function PresupuestoPage() {
     "estado",
     "formaPago",
     "referencia",
-    "fecha",
-    "validez",
     "precio",
     "tipo",
     "cliente",
     "nombre",
     "direccion",
     "atencion",
-    "servicio",
   ];
   const route = "/system/datos/clientes/";
   const routeBack = "/data/v1/clients/";

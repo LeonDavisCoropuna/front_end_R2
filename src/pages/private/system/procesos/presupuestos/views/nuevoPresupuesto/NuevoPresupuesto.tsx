@@ -8,10 +8,10 @@ function NuevoPresupuesto() {
       <div>
         <TitlePage title="Nuevo Presupuesto" />
       </div>
-      <form className=" text-xs px-2 py-2 gap-2">
+      <div className=" text-xs px-2 py-2 gap-2">
         <InformacionPresupuesto />
         <TablePresupuesto />
-      </form>
+      </div>
     </PresupuestoProvider>
   );
 }
