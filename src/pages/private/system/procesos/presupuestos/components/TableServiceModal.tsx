@@ -1,6 +1,6 @@
 import { usePresupuesto } from "../context/PresupuestoContext";
 import {
-  Item,
+  Servicio,
   Material,
   Viaticos,
   ServTerceros,
@@ -12,11 +12,13 @@ import { AiFillPlusCircle } from "react-icons/ai";
 interface TableProps<T> {
   data: T[];
   headers: string[];
-  key: keyof Item;
+  key: keyof Servicio;
   indexServicio: number;
 }
 
-export function TableServiceModal<T extends { [key: string]: any }>(props: TableProps<T>) {
+export function TableServiceModal<T extends { [key: string]: any }>(
+  props: TableProps<T>
+) {
   const { presupuesto, setPresupuesto } = usePresupuesto();
 
   const { data, headers, key, indexServicio } = props;
@@ -28,14 +30,14 @@ export function TableServiceModal<T extends { [key: string]: any }>(props: Table
     const { name, value } = e.target;
 
     const servicioActualizado = { ...presupuesto.servicios[indexServicio] };
-    if (Array.isArray(servicioActualizado.item[key] as any[])) {
-      const newArray = [...(servicioActualizado.item[key] as any[])];
+    if (Array.isArray(servicioActualizado[key] as any[])) {
+      const newArray = [...(servicioActualizado[key] as any[])];
       newArray[index][name] = value;
 
       // Asigna el array actualizado al atributo 'key'
-
-      servicioActualizado.item[key] = newArray;
-
+      if (Array.isArray(servicioActualizado[key])) {
+        servicioActualizado[key] = newArray;
+      }
       // Actualiza el presupuesto con los servicios modificados
       setPresupuesto((prev) => ({
         ...prev,
@@ -106,7 +108,7 @@ export function TableServiceModal<T extends { [key: string]: any }>(props: Table
     if (key === "impresiones") newRow = [...EmptyImpresiones];
 
     const newItem = [
-      ...(updateServicios[indexServicio].item[key] as any[]),
+      ...(updateServicios[indexServicio][key] as any[]),
       ...newRow,
     ];
 
@@ -114,7 +116,7 @@ export function TableServiceModal<T extends { [key: string]: any }>(props: Table
     setPresupuesto((prevPresupuesto) => {
       const updatedServicios = [...prevPresupuesto.servicios];
 
-      updatedServicios[indexServicio].item[key] = newItem;
+      updatedServicios[indexServicio][key] = newItem;
       return {
         ...prevPresupuesto,
         servicios: updatedServicios,

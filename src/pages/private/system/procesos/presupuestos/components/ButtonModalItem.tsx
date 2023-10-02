@@ -1,11 +1,11 @@
 import React from "react";
-import { Item } from "../models/nuevoPresupuesto.model";
+import { Servicio } from "../models/nuevoPresupuesto.model";
 
 export const ButtonModalItem: React.FC<{
-  handleAttributeClick: (e: React.MouseEvent, attribute: keyof Item) => void;
-  value: keyof Item;
+  handleAttributeClick: (e: React.MouseEvent, attribute: keyof Servicio) => void;
+  value: keyof Servicio;
   name: string;
-  selectedAttribute: keyof Item | null;
+  selectedAttribute: keyof Servicio | null;
 }> = ({ name, value, handleAttributeClick, selectedAttribute }) => {
   return (
     <button

@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import axios from "@/config/axiosConfig";
 import { EmptyProforma, Proforma } from "../../models/proformas.model";
+import { useNavigate } from "react-router-dom";
 
 export const HeadersTablePresupuesto: React.FC<{
   key: number;
@@ -19,6 +20,7 @@ export const HeadersTablePresupuesto: React.FC<{
 
 export default function PresupuestoPage() {
   const ref = useRef(true);
+  const navigation = useNavigate();
   const [info, setInfo] = useState<Proforma[]>([
     EmptyProforma,
     EmptyProforma,
@@ -37,6 +39,8 @@ export default function PresupuestoPage() {
     EmptyProforma,
     EmptyProforma,
   ]);
+
+  const [selectedRow, setSelectedRow] = useState<number>(0);
 
   const headers = [
     { name: "Nro. PPTO", visible: true },
@@ -60,19 +64,25 @@ export default function PresupuestoPage() {
     { name: "Bitacora", visible: true },
     { name: "Validado Por", visible: true },
   ];
-
+  const handleClickSelected = (e: React.MouseEvent, index: number) => {
+    e.preventDefault();
+    setSelectedRow(index);
+  };
+  const handleClickFindPPTO = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const ppto = info[selectedRow].nroPPTO
+    navigation(`/system/procesos/presupuestos/${ppto}`);
+  };
   return (
     <div className="mt-2 overflow-auto text-xs max-h-[42em] min-h-[42em] m-2">
+      <button onClick={handleClickFindPPTO}>Buscar</button>
       <table className="">
         <thead className=" z-10 top-0">
           <tr className="bg-blue-600 text-white">
             {headers.map(
               (header, index) =>
                 header.visible && (
-                  <HeadersTablePresupuesto
-                    value={header.name}
-                    key={index}
-                  />
+                  <HeadersTablePresupuesto value={header.name} key={index} />
                 )
             )}
           </tr>
@@ -83,7 +93,12 @@ export default function PresupuestoPage() {
               key={itemIndex}
               className={`${
                 itemIndex % 2 === 0 ? "bg-slate-100" : "bg-white"
-              } hover:bg-slate-200`}
+              } hover:bg-slate-200 ${
+                selectedRow === itemIndex ? "bg-slate-300" : ""
+              }`}
+              onClick={(e: React.MouseEvent) =>
+                handleClickSelected(e, itemIndex)
+              }
             >
               {Object.entries(item).map(([key, value], valueIndex) => {
                 if (value instanceof Date) {

@@ -3,17 +3,18 @@ import TitlePage from "@/components/TitlePage";
 import InformacionPresupuesto from "../../../components/InformacionPresupuesto";
 import TablePresupuesto from "../../../components/TablePresupuesto";
 import { useEffect } from "react";
-import { isNumeric } from "@/utils/decodeToken.utils";
+import { isPPTO } from "@/utils/decodeToken.utils";
 import axios from "@/config/axiosConfig";
 import { Presupuesto } from "../../../models/nuevoPresupuesto.model";
+import { useNavigate } from "react-router-dom";
 
 export const PresupuestoDetail: React.FC<{
   id?: string;
 }> = ({ id }) => {
   const { setPresupuesto } = usePresupuesto();
-
+  const navigate = useNavigate();
   useEffect(() => {
-    if (id && isNumeric(id)) {
+    if (id && isPPTO(id)) {
       const fetchPresupuestoDetail = async () => {
         try {
           const res = await axios.get<Presupuesto>(`/data/v1/clients/${id}`);
@@ -22,8 +23,9 @@ export const PresupuestoDetail: React.FC<{
           console.error(`"Error fetching presupuesto:"`, error);
         }
       };
-
       fetchPresupuestoDetail();
+    } else {
+      navigate("/system");
     }
   }, [id, setPresupuesto]);
 

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { usePresupuesto } from "../context/PresupuestoContext";
 import {
   Servicio,
-  Item,
   Material,
   Viaticos,
   ServTerceros,
@@ -16,7 +15,7 @@ import { ButtonModalItem } from "./ButtonModalItem";
 import { TableServiceModal } from "./TableServiceModal";
 
 export const ItemTableMateriales: React.FC<{
-  item: Item;
+  item: Servicio;
   indexServicio: number;
 }> = ({ item, indexServicio }) => {
   const headers = [
@@ -37,7 +36,7 @@ export const ItemTableMateriales: React.FC<{
 };
 
 export const ItemTableServicioTerceros: React.FC<{
-  item: Item;
+  item: Servicio;
   indexServicio: number;
 }> = ({ indexServicio, item }) => {
   const headers = ["Servicio", "Proveedor", "Importe"];
@@ -51,7 +50,7 @@ export const ItemTableServicioTerceros: React.FC<{
 };
 
 export const ItemTableViaticos: React.FC<{
-  item: Item;
+  item: Servicio;
   indexServicio: number;
 }> = ({ item, indexServicio }) => {
   const headers = ["Descripcion", "Costo", "No. Pers", "No. Dias", "Importe"];
@@ -65,7 +64,7 @@ export const ItemTableViaticos: React.FC<{
 };
 
 export const ItemTableImpresiones: React.FC<{
-  item: Item;
+  item: Servicio;
   indexServicio: number;
 }> = ({ item, indexServicio }) => {
   const headers = [
@@ -90,7 +89,7 @@ export const ItemTableImpresiones: React.FC<{
 };
 
 export const ItemTableManoObra: React.FC<{
-  item: Item;
+  item: Servicio;
   indexServicio: number;
 }> = ({ item, indexServicio }) => {
   const headers = [
@@ -167,7 +166,7 @@ export const TableService: React.FC<{
   index: number;
   handleDeleteService: (e: React.MouseEvent, index: number) => void; // Define la prop onDeleteService
 }> = ({ servicio, index, handleDeleteService }) => {
-  const [selectedAttribute, setSelectedAttribute] = useState<keyof Item | null>(
+  const [selectedAttribute, setSelectedAttribute] = useState<keyof Servicio | null>(
     "materiales"
   );
 
@@ -191,7 +190,7 @@ export const TableService: React.FC<{
     });
   };
 
-  const handleAttributeClick = (e: React.MouseEvent, attribute: keyof Item) => {
+  const handleAttributeClick = (e: React.MouseEvent, attribute: keyof Servicio) => {
     e.preventDefault();
     setSelectedAttribute(attribute);
   };
@@ -262,109 +261,11 @@ export const TableService: React.FC<{
           value={servicio.importe}
           onChange={(value) => handleChangeServicio(index, "importe", value)}
         />
+        
+        
       </tr>
-      <Modal isOpen={isOpenModal} closeModal={closeModal}>
-        <h1>Presupuesto para el Item {servicio.idN}</h1>
-        <div className="text-[1em] ">
-          <table>
-            <tbody className="gap-5">
-              <tr>
-                <DetailService
-                  column="Pedido"
-                  value={servicio.item.pedido}
-                  focus={false}
-                />
-                <DetailService
-                  column="Cantidad"
-                  value={servicio.item.cantidad}
-                  focus={false}
-                />
-                <DetailService
-                  column="Costo Total"
-                  value={servicio.item.costoTotal}
-                  focus={true}
-                />
-                <DetailService
-                  column="Utilidad%"
-                  value={servicio.item.utilidad}
-                  focus={false}
-                />
-                <DetailService
-                  column="Total"
-                  value={servicio.item.total}
-                  focus={true}
-                />
-                <DetailService column="Plantilla" value="Opt" focus={false} />
-              </tr>
-            </tbody>
-          </table>
-          <table>
-            <tbody>
-              <tr>
-                <th>
-                  <ButtonModalItem
-                    handleAttributeClick={handleAttributeClick}
-                    name="Materiales"
-                    value="materiales"
-                    selectedAttribute={selectedAttribute}
-                  />
-                </th>
-                <th>
-                  <ButtonModalItem
-                    handleAttributeClick={handleAttributeClick}
-                    name="Mano de Obra"
-                    value="manoObra"
-                    selectedAttribute={selectedAttribute}
-                  />
-                </th>
-                <th>
-                  <ButtonModalItem
-                    handleAttributeClick={handleAttributeClick}
-                    name="Serv. Terceros"
-                    value="serviciosTerceros"
-                    selectedAttribute={selectedAttribute}
-                  />
-                </th>
-                <th>
-                  <ButtonModalItem
-                    handleAttributeClick={handleAttributeClick}
-                    name="Viaticos"
-                    value="viaticos"
-                    selectedAttribute={selectedAttribute}
-                  />
-                </th>
-                <th>
-                  <ButtonModalItem
-                    handleAttributeClick={handleAttributeClick}
-                    name="Impresiones"
-                    value="impresiones"
-                    selectedAttribute={selectedAttribute}
-                  />
-                </th>
-              </tr>
-            </tbody>
-          </table>
 
-          {selectedAttribute === "impresiones" && (
-            <ItemTableImpresiones item={servicio.item} indexServicio={index} />
-          )}
-          {selectedAttribute === "materiales" && (
-            <ItemTableMateriales item={servicio.item} indexServicio={index} />
-          )}
-          {selectedAttribute === "viaticos" && (
-            <ItemTableViaticos item={servicio.item} indexServicio={index} />
-          )}
-          {selectedAttribute === "serviciosTerceros" && (
-            <ItemTableServicioTerceros
-              item={servicio.item}
-              indexServicio={index}
-            />
-          )}
-          {selectedAttribute === "manoObra" && (
-            <ItemTableManoObra item={servicio.item} indexServicio={index} />
-          )}
-        </div>
-      </Modal>
+      
     </>
   );
 };

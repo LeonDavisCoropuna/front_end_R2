@@ -30,86 +30,84 @@ function TablePresupuesto() {
       uMedida: "",
       pUnitario: 0,
       importe: 0,
-      item: {
-        pedido: "",
-        cantidad: 0,
-        costoTotal: 0,
-        utilidad: 0,
-        total: 0,
-        materiales: [
-          {
-            idN: 0,
-            articulo: "",
-            cantidad: 0,
-            cantidadEstimada: 0,
-            unidadMedida: "",
-            precioUnitario: 0,
-            importe: 0,
-            factor: 1,
-            total: 0,
-          },
-        ],
-        manoObra: {
-          confeccion: [
-            {
-              descripcion: "",
-              proceso: "",
-              cantidadPorHora: 0,
-              nroHoras: 0,
-              nroPersonas: 0,
-              importe: 0,
-            },
-          ],
-          instalacion: [
-            {
-              descripcion: "",
-              proceso: "",
-              cantidadPorHora: 0,
-              nroHoras: 0,
-              nroPersonas: 0,
-              importe: 0,
-            },
-          ],
-          factor: 2.1,
+
+      pedido: "",
+      costoTotal: 0,
+      utilidad: 0,
+      total: 0,
+      materiales: [
+        {
+          idN: 0,
+          articulo: "",
+          cantidad: 0,
+          cantidadEstimada: 0,
+          unidadMedida: "",
+          precioUnitario: 0,
+          importe: 0,
+          factor: 1,
           total: 0,
         },
-        serviciosTerceros: [
-          {
-            servicioBrindado: "",
-            proveedor: "",
-            importe: 0,
-            factor: 1,
-            total: 0,
-          },
-        ],
-        viaticos: [
+      ],
+      manoObra: {
+        confeccion: [
           {
             descripcion: "",
-            costo: 0,
-            noPersonas: 0,
-            noDias: 0,
+            proceso: "",
+            cantidadPorHora: 0,
+            nroHoras: 0,
+            nroPersonas: 0,
             importe: 0,
-            factor: 1,
-            total: 0,
           },
         ],
-        impresiones: [
+        instalacion: [
           {
-            campania: "",
-            material: "",
-            impresora: "",
-            metrosHorizontal: 0,
-            metrosVertical: 0,
-            cantidad: 0,
-            cantidadTotal: 0,
-            precioM2: 0,
+            descripcion: "",
+            proceso: "",
+            cantidadPorHora: 0,
+            nroHoras: 0,
+            nroPersonas: 0,
             importe: 0,
-            minimo: 0,
-            factor: 1,
-            total: 0,
           },
         ],
+        factor: 2.1,
+        total: 0,
       },
+      serviciosTerceros: [
+        {
+          servicioBrindado: "",
+          proveedor: "",
+          importe: 0,
+          factor: 1,
+          total: 0,
+        },
+      ],
+      viaticos: [
+        {
+          descripcion: "",
+          costo: 0,
+          noPersonas: 0,
+          noDias: 0,
+          importe: 0,
+          factor: 1,
+          total: 0,
+        },
+      ],
+      impresiones: [
+        {
+          campania: "",
+          material: "",
+          impresora: "",
+          metrosHorizontal: 0,
+          metrosVertical: 0,
+          cantidad: 0,
+          cantidadTotal: 0,
+          precioM2: 0,
+          importe: 0,
+          minimo: 0,
+          factor: 1,
+          total: 0,
+        },
+      ],
     };
 
     // Clona el array existente y agrega el nuevo servicio
@@ -125,7 +123,7 @@ function TablePresupuesto() {
     e.preventDefault();
     const servicioCopia = [...presupuesto.servicios];
     servicioCopia.splice(index, 1);
-    
+
     const servicios = servicioCopia.map((servicios, index) => ({
       ...servicios,
       idN: index + 1,

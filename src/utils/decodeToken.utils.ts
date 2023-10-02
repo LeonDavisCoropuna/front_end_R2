@@ -1,6 +1,6 @@
 import jwtDecode from "jwt-decode";
 import Cookies from "js-cookie";
-export const decodeToken = (token: string) => {
+export const decodeToken = (token: string) :any => {
   const tok = Cookies.get(token);
   if (tok) {
     const content = jwtDecode(tok); 
@@ -8,9 +8,17 @@ export const decodeToken = (token: string) => {
   }
   return null;
 };
+
+export const isPPTO = (token: string): boolean => {
+  const tok = token.substring(0,4);
+  if(tok === "PPTO"){
+    return true
+  }
+  return false
+}
 export const isNumeric = (text: string) => {
   const num = parseFloat(text); // Convertir 'text' a número
   return !isNaN(num) && isFinite(num);
 };
 
-export const tokenKey = "token";
+export const tokenKey = "token";  

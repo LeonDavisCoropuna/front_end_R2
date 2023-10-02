@@ -12,7 +12,7 @@ export const Modal: React.FC<{
     closeModal();
   }
   return (
-    <article
+    <div
       className={`flex fixed z-[999] top-0 left-0 w-full h-full min-h-full bg-opacity-75 bg-black justify-center items-center ${
         isOpen ? " fixed" : "hidden "
       }`}
@@ -30,7 +30,7 @@ export const Modal: React.FC<{
         </button>
         {children}
       </div>
-    </article>
+    </div>
   );
 };
 
