@@ -4,6 +4,19 @@ import { Servicio } from "../models/nuevoPresupuesto.model";
 import { AiFillPlusCircle } from "react-icons/ai";
 import TableService from "./TableService";
 
+export const HeadersTablePresupuesto: React.FC<{
+  value: string;
+  size: number;
+}> = ({ value, size }) => {
+  return (
+    <th
+      className={`bg-blue-600 text-white resize-x overflow-auto border-[0.15em]`}
+    >
+      <div className={`h-full w-[${size}em]`}> {value}</div>
+    </th>
+  );
+};
+
 function TablePresupuesto() {
   const { presupuesto, setPresupuesto } = usePresupuesto();
 
@@ -112,15 +125,14 @@ function TablePresupuesto() {
     e.preventDefault();
     const servicioCopia = [...presupuesto.servicios];
     servicioCopia.splice(index, 1);
-
-    console.log(servicioCopia);
+    
     const servicios = servicioCopia.map((servicios, index) => ({
       ...servicios,
-      no: index + 1,
+      idN: index + 1,
     }));
     setPresupuesto((prevState) => ({
       ...prevState, // Copiamos todas las propiedades del estado anterior
-      servicio: servicios,
+      servicios: servicios,
     }));
   };
   return (
@@ -134,27 +146,13 @@ function TablePresupuesto() {
         <table className="table-auto w-full">
           <thead className="w-full">
             <tr className="">
-              <th className="bg-blue-600 text-white resize-x overflow-auto border-[0.15em] w-11">
-                No
-              </th>
-              <th className="bg-blue-600 text-white resize-x overflow-auto border-[0.15em]">
-                Codigo
-              </th>
-              <th className="bg-blue-600 text-white resize-x overflow-auto border-[0.15em] w-64">
-                Descripcion
-              </th>
-              <th className="bg-blue-600 text-white resize-x overflow-auto border-[0.15em]">
-                Cantidad
-              </th>
-              <th className="bg-blue-600 text-white resize-x overflow-auto border-[0.15em]">
-                U Medida
-              </th>
-              <th className="bg-blue-600 text-white resize-x overflow-auto border-[0.15em]">
-                P. Unitario
-              </th>
-              <th className="bg-blue-600 text-white resize-x overflow-auto border-[0.15em]">
-                Importe
-              </th>
+              <HeadersTablePresupuesto value="No" size={1} />
+              <HeadersTablePresupuesto value="Codigo" size={2} />
+              <HeadersTablePresupuesto value="Descripcion" size={50} />
+              <HeadersTablePresupuesto value="Cantidad" size={2} />
+              <HeadersTablePresupuesto value="U. Medida" size={1} />
+              <HeadersTablePresupuesto value="P. Unitraio" size={1} />
+              <HeadersTablePresupuesto value="Importe" size={1} />
             </tr>
           </thead>
           <tbody>

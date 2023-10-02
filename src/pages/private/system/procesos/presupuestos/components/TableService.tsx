@@ -13,47 +13,12 @@ import { AiOutlineDelete, AiFillEdit } from "react-icons/ai";
 import Modal from "./Modal";
 import { useModal } from "../hooks/useModal";
 import { ButtonModalItem } from "./ButtonModalItem";
+import { TableServiceModal } from "./TableServiceModal";
 
-interface TableProps<T> {
-  data: T[];
-  headers: string[];
-}
-
-function renderTable<T extends { [key: string]: any }>(props: TableProps<T>) {
-  const { data, headers } = props;
-
-  return (
-    <table className="w-full">
-      <thead>
-        <tr className="bg-blue-600 text-white h-6">
-          {headers.map((header, index) => (
-            <th key={index} className="border-[0.1em]">
-              {header}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((item, itemIndex) => (
-          <tr key={itemIndex}>
-            {Object.entries(item).map(([key, value], valueIndex) => {
-              if (key !== "factor" && key !== "total") {
-                return (
-                  <td key={valueIndex} className="border-[0.1em]">
-                    {value}
-                  </td>
-                );
-              }
-              return null; // No renderizar nada para "factor" y "total"
-            })}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-}
-
-export const ItemTableMateriales: React.FC<{ item: Item }> = ({ item }) => {
+export const ItemTableMateriales: React.FC<{
+  item: Item;
+  indexServicio: number;
+}> = ({ item, indexServicio }) => {
   const headers = [
     "Codigo",
     "Articulo",
@@ -63,25 +28,46 @@ export const ItemTableMateriales: React.FC<{ item: Item }> = ({ item }) => {
     "P. Unitario",
     "Importe",
   ];
-
-  return renderTable<Material>({ data: item.materiales, headers });
+  return TableServiceModal<Material>({
+    data: item.materiales,
+    headers,
+    key: "materiales",
+    indexServicio,
+  });
 };
 
-export const ItemTableServicioTerceros: React.FC<{ item: Item }> = ({
-  item,
-}) => {
+export const ItemTableServicioTerceros: React.FC<{
+  item: Item;
+  indexServicio: number;
+}> = ({ indexServicio, item }) => {
   const headers = ["Servicio", "Proveedor", "Importe"];
 
-  return renderTable<ServTerceros>({ data: item.serviciosTerceros, headers });
+  return TableServiceModal<ServTerceros>({
+    data: item.serviciosTerceros,
+    headers,
+    key: "serviciosTerceros",
+    indexServicio,
+  });
 };
 
-export const ItemTableViaticos: React.FC<{ item: Item }> = ({ item }) => {
+export const ItemTableViaticos: React.FC<{
+  item: Item;
+  indexServicio: number;
+}> = ({ item, indexServicio }) => {
   const headers = ["Descripcion", "Costo", "No. Pers", "No. Dias", "Importe"];
 
-  return renderTable<Viaticos>({ data: item.viaticos, headers });
+  return TableServiceModal<Viaticos>({
+    data: item.viaticos,
+    headers,
+    key: "viaticos",
+    indexServicio,
+  });
 };
 
-export const ItemTableImpresiones: React.FC<{ item: Item }> = ({ item }) => {
+export const ItemTableImpresiones: React.FC<{
+  item: Item;
+  indexServicio: number;
+}> = ({ item, indexServicio }) => {
   const headers = [
     "Campaña",
     "Material",
@@ -95,10 +81,18 @@ export const ItemTableImpresiones: React.FC<{ item: Item }> = ({ item }) => {
     "Min",
   ];
 
-  return renderTable<Impresiones>({ data: item.impresiones, headers });
+  return TableServiceModal<Impresiones>({
+    data: item.impresiones,
+    headers,
+    key: "impresiones",
+    indexServicio,
+  });
 };
 
-export const ItemTableManoObra: React.FC<{ item: Item }> = ({ item }) => {
+export const ItemTableManoObra: React.FC<{
+  item: Item;
+  indexServicio: number;
+}> = ({ item, indexServicio }) => {
   const headers = [
     "Descripcion",
     "Proceso",
@@ -110,16 +104,26 @@ export const ItemTableManoObra: React.FC<{ item: Item }> = ({ item }) => {
   return (
     <>
       <h2 className="font-semibold text-[1.1em]">Confeccion: </h2>
-      {renderTable<ManoObraOpt>({ data: item.manoObra.confeccion, headers })}
+      {TableServiceModal<ManoObraOpt>({
+        data: item.manoObra.confeccion,
+        headers,
+        key: "manoObra",
+        indexServicio,
+      })}
       <h2 className="font-semibold text-[1.1em]">Instalacion: </h2>
-      {renderTable<ManoObraOpt>({ data: item.manoObra.instalacion, headers })}
+      {TableServiceModal<ManoObraOpt>({
+        data: item.manoObra.instalacion,
+        headers,
+        key: "manoObra",
+        indexServicio,
+      })}
     </>
   );
 };
 
 export const DetailService: React.FC<{
   column: string;
-  value: string | number;
+  value: string | number | null;
   focus: boolean;
 }> = ({ column, value, focus }) => {
   return (
@@ -169,7 +173,8 @@ export const TableService: React.FC<{
 
   const [isOpenModal, openModal, closeModal] = useModal();
   const { presupuesto, setPresupuesto } = usePresupuesto();
-  const isEdit = presupuesto.idN ? true : false;
+  //const isEdit = presupuesto.idN ? true : false;
+  const isEdit = presupuesto.estado === "En curso" ? true : false;
   const handleChangeServicio = (
     index: number,
     field: keyof Servicio,
@@ -201,22 +206,33 @@ export const TableService: React.FC<{
           value={servicio.codigo}
           onChange={(value) => handleChangeServicio(index, "codigo", value)}
         />
-        <td className=" border-[0.15em] flex relative justify-between gap-2">
+        <td className=" border-[0.15em] flex relative justify-between">
           <textarea
             rows={3}
             value={servicio.descripcion}
             onChange={(e) =>
               handleChangeServicio(index, "descripcion", e.target.value)
             }
-            className=" w-[50em] bg-transparent border-none outline-none"
+            className=" w-full bg-transparent border-none outline-none"
           />
           {!isEdit ? (
-            <div
-              className="flex items-center"
-              onClick={(e: React.MouseEvent) => handleDeleteService(e, index)}
-            >
-              <AiOutlineDelete size={20} />
-            </div>
+            <>
+              <button
+                className="flex items-center"
+                onClick={(e: React.MouseEvent) => handleDeleteService(e, index)}
+              >
+                <AiOutlineDelete size={20} />
+              </button>
+              <button
+                className="flex items-center"
+                onClick={(e: React.MouseEvent) => {
+                  e.preventDefault();
+                  openModal();
+                }}
+              >
+                <AiFillEdit size={20} />
+              </button>
+            </>
           ) : (
             <button
               className="flex items-center"
@@ -330,19 +346,22 @@ export const TableService: React.FC<{
           </table>
 
           {selectedAttribute === "impresiones" && (
-            <ItemTableImpresiones item={servicio.item} />
+            <ItemTableImpresiones item={servicio.item} indexServicio={index} />
           )}
           {selectedAttribute === "materiales" && (
-            <ItemTableMateriales item={servicio.item} />
+            <ItemTableMateriales item={servicio.item} indexServicio={index} />
           )}
           {selectedAttribute === "viaticos" && (
-            <ItemTableViaticos item={servicio.item} />
+            <ItemTableViaticos item={servicio.item} indexServicio={index} />
           )}
           {selectedAttribute === "serviciosTerceros" && (
-            <ItemTableServicioTerceros item={servicio.item} />
+            <ItemTableServicioTerceros
+              item={servicio.item}
+              indexServicio={index}
+            />
           )}
           {selectedAttribute === "manoObra" && (
-            <ItemTableManoObra item={servicio.item} />
+            <ItemTableManoObra item={servicio.item} indexServicio={index} />
           )}
         </div>
       </Modal>

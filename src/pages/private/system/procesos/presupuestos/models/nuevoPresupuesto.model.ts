@@ -1,5 +1,7 @@
 export const EmptyPresupuesto: Presupuesto = {
-  idN: "22",
+  idN: "-",
+  nroOrden: null,
+  status: "",
   estado: "",
   formaPago: "",
   referencia: "",
@@ -19,7 +21,7 @@ export const EmptyPresupuesto: Presupuesto = {
       cantidad: 0,
       uMedida: "",
       pUnitario: 0,
-      importe: 18,
+      importe: 0,
       item: {
         pedido: "",
         cantidad: 0,
@@ -113,6 +115,8 @@ export const EmptyPresupuestos: Presupuesto[] = [
 
 export interface Presupuesto {
   idN: string;
+  nroOrden: number | null;
+  status: string;
   estado: string;
   formaPago: string;
   referencia: string;
@@ -139,11 +143,11 @@ export interface Servicio {
 }
 
 export interface Item {
-    pedido: string;
-    cantidad: number;
-    costoTotal: number;
-    utilidad: number;
-    total: number;
+  pedido: string;
+  cantidad: number;
+  costoTotal: number;
+  utilidad: number;
+  total: number;
   materiales: Material[];
   manoObra: ManoObra;
   serviciosTerceros: ServTerceros[];
@@ -162,6 +166,19 @@ export interface Material {
   factor: number;
   total: number;
 }
+
+export const EmptyMaterial : Material[] = [{
+  idN: 0,
+  articulo: "",
+  cantidad: 0,
+  cantidadEstimada: 0,
+  unidadMedida: "",
+  precioUnitario: 0,
+  importe: 0,
+  factor: 1,
+  total: 0
+}
+]
 export interface ManoObraOpt {
   descripcion: string;
   proceso: string;
@@ -185,6 +202,14 @@ export interface ServTerceros {
   total: number;
 }
 
+export const EmptyServTerceros : ServTerceros[] = [{
+  servicioBrindado:"",
+  proveedor:"",
+  importe:0,
+  factor:1,
+  total:0
+}]
+
 export interface Viaticos {
   descripcion: string;
   costo: number;
@@ -195,6 +220,16 @@ export interface Viaticos {
   total: number;
 }
 
+export const EmptyViaticos : Viaticos[] = [{
+  descripcion: "",
+  costo: 0,
+  noPersonas: 0,
+  noDias: 0,
+  importe: 0,
+  factor: 1,
+  total: 0,
+}
+]
 export interface Impresiones {
   campania: string;
   material: string;
@@ -209,3 +244,18 @@ export interface Impresiones {
   factor: number;
   total: number;
 }
+
+export const EmptyImpresiones : Impresiones[] = [{
+  campania: "",
+  material: "",
+  impresora: "",
+  metrosHorizontal: 0,
+  metrosVertical: 0,
+  cantidad: 0,
+  cantidadTotal: 0,
+  precioM2: 0,
+  importe: 0,
+  minimo: 0,
+  factor: 1,
+  total: 0,
+}]
