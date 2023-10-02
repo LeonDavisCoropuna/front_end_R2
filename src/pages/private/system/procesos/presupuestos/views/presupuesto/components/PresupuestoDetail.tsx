@@ -7,6 +7,7 @@ import { isPPTO } from "@/utils/decodeToken.utils";
 import axios from "@/config/axiosConfig";
 import { Presupuesto } from "../../../models/nuevoPresupuesto.model";
 import { useNavigate } from "react-router-dom";
+import { FooterPresupuesto } from "./FooterPresupuesto";
 
 export const PresupuestoDetail: React.FC<{
   id?: string;
@@ -20,7 +21,7 @@ export const PresupuestoDetail: React.FC<{
           const res = await axios.get<Presupuesto>(`/data/v1/clients/${id}`);
           setPresupuesto(res.data);
         } catch (error) {
-          console.error(`"Error fetching presupuesto:"`, error);
+          //console.error(`"Error fetching presupuesto:"`, error);
         }
       };
       fetchPresupuestoDetail();
@@ -36,6 +37,9 @@ export const PresupuestoDetail: React.FC<{
         <InformacionPresupuesto />
         <TablePresupuesto />
       </form>
+      <div>
+        <FooterPresupuesto />
+      </div>
     </>
   );
 };
