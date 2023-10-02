@@ -166,9 +166,9 @@ export const TableService: React.FC<{
   index: number;
   handleDeleteService: (e: React.MouseEvent, index: number) => void; // Define la prop onDeleteService
 }> = ({ servicio, index, handleDeleteService }) => {
-  const [selectedAttribute, setSelectedAttribute] = useState<keyof Servicio | null>(
-    "materiales"
-  );
+  const [selectedAttribute, setSelectedAttribute] = useState<
+    keyof Servicio | null
+  >("materiales");
 
   const [isOpenModal, openModal, closeModal] = useModal();
   const { presupuesto, setPresupuesto } = usePresupuesto();
@@ -190,7 +190,10 @@ export const TableService: React.FC<{
     });
   };
 
-  const handleAttributeClick = (e: React.MouseEvent, attribute: keyof Servicio) => {
+  const handleAttributeClick = (
+    e: React.MouseEvent,
+    attribute: keyof Servicio
+  ) => {
     e.preventDefault();
     setSelectedAttribute(attribute);
   };
@@ -261,11 +264,109 @@ export const TableService: React.FC<{
           value={servicio.importe}
           onChange={(value) => handleChangeServicio(index, "importe", value)}
         />
-        
-        
       </tr>
+      <Modal isOpen={isOpenModal} closeModal={closeModal}>
+        <h1>Presupuesto para el Item {servicio.idN}</h1>
+        <div className="text-[1em] ">
+          <table>
+            <tbody className="gap-5">
+              <tr>
+                <DetailService
+                  column="Pedido"
+                  value={servicio.pedido}
+                  focus={false}
+                />
+                <DetailService
+                  column="Cantidad"
+                  value={servicio.cantidad}
+                  focus={false}
+                />
+                <DetailService
+                  column="Costo Total"
+                  value={servicio.costoTotal}
+                  focus={true}
+                />
+                <DetailService
+                  column="Utilidad%"
+                  value={servicio.utilidad}
+                  focus={false}
+                />
+                <DetailService
+                  column="Total"
+                  value={servicio.total}
+                  focus={true}
+                />
+                <DetailService column="Plantilla" value="Opt" focus={false} />
+              </tr>
+            </tbody>
+          </table>
+          <table>
+            <tbody>
+              <tr>
+                <th>
+                  <ButtonModalItem
+                    handleAttributeClick={handleAttributeClick}
+                    name="Materiales"
+                    value="materiales"
+                    selectedAttribute={selectedAttribute}
+                  />
+                </th>
+                <th>
+                  <ButtonModalItem
+                    handleAttributeClick={handleAttributeClick}
+                    name="Mano de Obra"
+                    value="manoObra"
+                    selectedAttribute={selectedAttribute}
+                  />
+                </th>
+                <th>
+                  <ButtonModalItem
+                    handleAttributeClick={handleAttributeClick}
+                    name="Serv. Terceros"
+                    value="serviciosTerceros"
+                    selectedAttribute={selectedAttribute}
+                  />
+                </th>
+                <th>
+                  <ButtonModalItem
+                    handleAttributeClick={handleAttributeClick}
+                    name="Viaticos"
+                    value="viaticos"
+                    selectedAttribute={selectedAttribute}
+                  />
+                </th>
+                <th>
+                  <ButtonModalItem
+                    handleAttributeClick={handleAttributeClick}
+                    name="Impresiones"
+                    value="impresiones"
+                    selectedAttribute={selectedAttribute}
+                  />
+                </th>
+              </tr>
+            </tbody>
+          </table>
 
-      
+          {selectedAttribute === "impresiones" && (
+            <ItemTableImpresiones item={servicio} indexServicio={index} />
+          )}
+          {selectedAttribute === "materiales" && (
+            <ItemTableMateriales item={servicio} indexServicio={index} />
+          )}
+          {selectedAttribute === "viaticos" && (
+            <ItemTableViaticos item={servicio} indexServicio={index} />
+          )}
+          {selectedAttribute === "serviciosTerceros" && (
+            <ItemTableServicioTerceros
+              item={servicio}
+              indexServicio={index}
+            />
+          )}
+          {selectedAttribute === "manoObra" && (
+            <ItemTableManoObra item={servicio} indexServicio={index} />
+          )}
+        </div>
+      </Modal>
     </>
   );
 };
