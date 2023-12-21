@@ -284,7 +284,9 @@ const items = [
     title: "Despachos",
     hasMenu: true,
     route: "despachos",
-    menu: [{ title: "Guia de Remision", hasMenu: false, route: "despachos/guia" }],
+    menu: [
+      { title: "Guia de Remision", hasMenu: false, route: "despachos/guia" },
+    ],
   },
   {
     title: "RR.HH",
@@ -348,7 +350,7 @@ const items = [
   },
 ];
 
-function Navigation() {
+function Navigation({ user }: { user: any }) {
   return (
     <div className="flex justify-between px-5 py-2 bg-[#1E1F26] text-white items-center">
       <div className="flex items-center flex-[0.8] justify-start">
@@ -461,6 +463,12 @@ min-w-24
             ))}
           </nav>
         </div>
+      </div>
+      <h1 className="px-5">{user.sub}</h1>
+      <div className="px-5">
+        {user.roles.map((e:any) => (
+          <h2>{e}</h2>
+        ))}
       </div>
       <div className="flex-[0.2] bg-slate-500 text-center">
         <Logout />

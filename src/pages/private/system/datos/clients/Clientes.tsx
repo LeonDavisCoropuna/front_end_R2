@@ -32,8 +32,9 @@ export default function Clientes() {
     if (ref.current) {
       const getInfoClients = async () => {
         try {
-          const { data } = await axios.get<Client[]>("/data/v1/clients/all");
+          const { data } = await axios.get<Client[]>("/data/clients/all");
           setInfo(data);
+          console.log(data)
         } catch (error) {
           console.error("Error al obtener los clientes:", error);
         }

@@ -8,9 +8,11 @@ interface ProtectedRouteProps {
 
 export function ProtectedRoute(props: ProtectedRouteProps) {
   const user = useSelector((state: AppStore) => state.user);
+  
   if (!user.roles || user.roles.length === 0) {
     return <Navigate to="/login" />;
   }
+  
   return <>{props.children}</>;
 }
 

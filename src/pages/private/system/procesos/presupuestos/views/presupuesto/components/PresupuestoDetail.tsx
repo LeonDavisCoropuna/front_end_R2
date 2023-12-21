@@ -38,7 +38,7 @@ export const PresupuestoDetail: React.FC<{
         <TablePresupuesto />
       </form>
       <div>
-        <FooterPresupuesto />
+        <FooterPresupuesto /> 
       </div>
     </>
   );

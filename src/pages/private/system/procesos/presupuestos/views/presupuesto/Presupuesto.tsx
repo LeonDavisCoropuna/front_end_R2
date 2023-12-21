@@ -73,6 +73,14 @@ export default function PresupuestoPage() {
     const ppto = info[selectedRow].nroPPTO
     navigation(`/system/procesos/presupuestos/${ppto}`);
   };
+  useEffect(() => {
+    const fetch = async () => {
+
+      const res = await axios.get("/data/budget/all");
+      console.log(res)
+    }
+    fetch()
+  },[])
   return (
     <div className="mt-2 overflow-auto text-xs max-h-[42em] min-h-[42em] m-2">
       <button onClick={handleClickFindPPTO}>Buscar</button>

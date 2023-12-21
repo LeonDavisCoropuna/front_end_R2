@@ -5,41 +5,17 @@ import axios from "@/config/axiosConfig";
 function ArticulosIndex() {
   const ref = useRef(true);
   const [info, setInfo] = useState<Articulo[]>([]);
-  const articulosData: Articulo[] = [
-    {
-      idN: 123,
-      nombre: "aldechi",
-      categoria: "accesorio",
-      tipo: "qqqqq",
-      precio: 123,
-      impuesto: 123,
-      stock: 123,
-      stockMin: 23,
-      stockMax: 21,
-    },
-    {
-      idN: 752,
-      nombre: "avegoood",
-      categoria: "accesorio",
-      tipo: "wwww",
-      precio: 123,
-      impuesto: 123,
-      stock: 123,
-      stockMin: 23,
-      stockMax: 21,
-    },
-  ];
-  //setInfo(articulosData);
-  /*
+  
+  
   useEffect(() => {
     if (ref.current) {
       const getInfoClients = async () => {
         try {
-          const { data } = await axios.get<Articulo[]>("/data/v1/article/all");
+          const { data } = await axios.get<Articulo[]>("/data/articles/all");
           console.log(data);
           setInfo(data);
         } catch (error) {
-          console.error("Error al obtener los clientes:", error);
+          console.error("Error al obtener los articulos:", error);
         }
       };
       getInfoClients(); // Llama a la función para obtener datos de los clientes
@@ -50,7 +26,7 @@ function ArticulosIndex() {
       ref.current = false;
     };
   }, []);
-  */
+  
   const articuloKeys = [
     "idN",
     "nombre",
@@ -67,7 +43,7 @@ function ArticulosIndex() {
   return (
     <div className=" bg-[#283355] overflow-auto h-[30em]">
       {ref.current === true ? (
-        <Table columns={articuloKeys} info={articulosData} route={route}/>
+        <Table columns={articuloKeys} info={info} route={route}/>
       ) : null}
     </div>
   );
